@@ -21,12 +21,17 @@ class Rating_Choice {
 	 */
 	public function __construct() {
 		$this->set_possible();
+		$this->choose();
 	}
 
 	/**
 	 * @return array Data for chosen plugin or null if there are no possibilities chosen
 	 */
 	public function get_chosen_plugin() {
+		if ( is_null( $this->chosen_plugin ) ) {
+			$this->choose();
+		}
+
 		return $this->chosen_plugin;
 	}
 
@@ -43,35 +48,39 @@ class Rating_Choice {
 	 */
 	protected function choose() {
 		if ( ! empty( $this->possible ) ) {
-			$this->choose();
-		} else {
-			Rating_Log::add_all();
-			$this->set_possible();
-
-			if ( ! empty( $this->possible ) ) {
+			$key = array_rand( $this->possible );
+			$_chosen = $this->possible[$key];
+			if ( $this->valid_choice( $_chosen ) ) {
+				$this->chosen_plugin = get_plugin_data( $_chosen['path'] );
+				return;
+			} else {
+				unset( $this->possible[$_chosen] );
 				$this->choose();
-			}
+ 			}
+
 		}
+
 	}
+
 
 	/**
+	 * Determine if chosen plugin is a valid choice
 	 *
-	 * @return array Plugin data for chosen plugin. Accessible via the public get_chosen_plugin() method.
+	 * Plugin mus be activated and have been active for 15 days
+	 *
+	 * @param array $chosen
+	 *
+	 * @return bool
 	 */
-	protected function choose_plugin() {
-		$key = array_rand( $this->possible );
-		$_chosen = $this->possible[$key];
-		$active = is_plugin_active( $_chosen );
-		if ( $active ) {
-			$this->chosen_plugin = get_plugin_data( $_chosen['path'] );
-		} else {
-			Rating_Log::remove( $_chosen );
-			$this->set_possible();
-			$this->choose();
-		}
-	}
-
 	protected function valid_choice( $chosen ) {
-		// TODO
+		if( is_plugin_active( $chosen['path'] ) ) {
+			$interval = apply_filters( 'plugin_love_interval', 15 * DAY_IN_SECONDS );
+			$long_enough = $chosen['activated'] - $interval;
+			if( time() > $long_enough ) {
+				return true;
+
+			}
+
+		}
 	}
 }
