@@ -31,8 +31,8 @@ class Rating_Choice {
 		if ( is_null( $this->chosen_plugin ) ) {
 			$this->choose();
 		}
-
 		return $this->chosen_plugin;
+		
 	}
 
 	/**
@@ -46,7 +46,7 @@ class Rating_Choice {
 	/**
 	 * Run plugin chooser if there are possible plugins to choose from.
 	 */
-	protected function choose() {
+	 public function choose() {
 		if ( ! empty( $this->possible ) ) {
 			$key = array_rand( $this->possible );
 			$_chosen = $this->possible[$key];
@@ -56,11 +56,11 @@ class Rating_Choice {
 			} else {
 				unset( $this->possible[$_chosen] );
 				$this->choose();
- 			}
+	        }
 
 		}
 
-	}
+	 }
 
 
 	/**
@@ -72,7 +72,7 @@ class Rating_Choice {
 	 *
 	 * @return bool
 	 */
-	protected function valid_choice( $chosen ) {
+	 public function valid_choice( $chosen ) {
 		if( is_plugin_active( $chosen['path'] ) ) {
 			$interval = apply_filters( 'plugin_love_interval', 15 * DAY_IN_SECONDS );
 			$long_enough = $chosen['activated'] - $interval;
