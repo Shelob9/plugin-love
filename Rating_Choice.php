@@ -19,15 +19,14 @@ class Rating_Choice {
 	/**
 	 * Construct object and choose a plugin if possible
 	 */
-	public function __construct(){
+	public function __construct() {
 		$this->set_possible();
-
 	}
 
 	/**
 	 * @return array Data for chosen plugin or null if there are no possibilities chosen
 	 */
-	public function get_chosen_plugin(){
+	public function get_chosen_plugin() {
 		return $this->chosen_plugin;
 	}
 
@@ -35,21 +34,21 @@ class Rating_Choice {
 	 *
 	 * @return array Log of plugins to choose from
 	 */
-	protected function set_possible(){
+	protected function set_possible() {
 		$this->possible = Rating_Log::get();
 	}
 
 	/**
 	 * Run plugin chooser if there are possible plugins to choose from.
 	 */
-	protected function choose(){
-		if ( ! empty( $this->possible ) ){
+	protected function choose() {
+		if ( ! empty( $this->possible ) ) {
 			$this->choose();
 		} else {
 			Rating_Log::add_all();
 			$this->set_possible();
 
-			if ( ! empty( $this->possible ) ){
+			if ( ! empty( $this->possible ) ) {
 				$this->choose();
 			}
 		}
