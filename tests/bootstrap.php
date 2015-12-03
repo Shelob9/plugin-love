@@ -5,6 +5,7 @@ if ( !$_tests_dir ) $_tests_dir = '/tmp/wordpress-tests-lib';
 
 require_once $_tests_dir . '/includes/functions.php';
 
+
 function _manually_load_plugin() {
 	require dirname( __FILE__ ) . '/../plugin-love.php';
 	plugin_love_init();
@@ -12,5 +13,6 @@ function _manually_load_plugin() {
 tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
 
 require $_tests_dir . '/includes/bootstrap.php';
+include_once( dirname( __FILE__ ) ) . '/test-case.php';
 
 
