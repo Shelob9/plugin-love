@@ -15,15 +15,16 @@ class Rating_Log {
 	 */
 	public static function add_all() {
 		$plugins = get_plugins();
-		if( ! empty( $plugins ) ) {
+
+		if ( ! empty( $plugins ) ) {
 			$log = self::get();
+
 			foreach( $plugins as $path => $data ) {
-				$log[ $path ] = self::prepare( $path );
+				$log[$path] = self::prepare( $path );
 			}
 
 			update_option( self::$option_name, $log );
 		}
-
 	}
 
 	/**
@@ -43,9 +44,8 @@ class Rating_Log {
 	public static function add( $path ) {
 		$log = self::get();
 
-		$log[ $path ] = self::prepare( $path );
+		$log[$path] = self::prepare( $path );
 		update_option( self::$option_name, $log );
-
 	}
 
 	/**
@@ -55,12 +55,11 @@ class Rating_Log {
 	 */
 	public static function remove( $path ) {
 		$log = self::get();
-		if( ! empty( $log ) && array_key_exists( $path, $log ) ) {
-			unset( $log[ $path ] );
+
+		if ( ! empty( $log ) && array_key_exists( $path, $log ) ) {
+			unset( $log[$path] );
 			update_option( self::$option_name, $log );
-
 		}
-
 	}
 
 	/**
@@ -70,11 +69,11 @@ class Rating_Log {
 	 */
 	public static function mark( $path  ) {
 		$log = self::get();
-		if( ! empty( $log ) && array_key_exists( $path, $log ) ) {
-			$log[ $path ][ 'acted_on' ] = true;
+
+		if ( ! empty( $log ) && array_key_exists( $path, $log ) ) {
+			$log[$path]['acted_on'] = true;
 			update_option( self::$option_name, $log );
 		}
-
 	}
 
 	/**
@@ -84,9 +83,9 @@ class Rating_Log {
 	 */
 	public static function acted_on( $path ) {
 		$log = self::get();
-		if( ! empty( $log ) && array_key_exists( $path, $log ) ) {
-			return $log[ $path ][ 'acted_on' ];
 
+		if ( ! empty( $log ) && array_key_exists( $path, $log ) ) {
+			return $log[$path]['acted_on'];
 		}
 
 		return null;
@@ -104,10 +103,8 @@ class Rating_Log {
 			'path'            => $path,
 			'activation_time' => time(),
 			'acted_on'        => false,
-
 		);
 
 		return $data;
 	}
-
 }

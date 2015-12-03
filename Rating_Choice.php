@@ -43,17 +43,16 @@ class Rating_Choice {
 	 * Run plugin chooser if there are possible plugins to choose from.
 	 */
 	protected function choose(){
-		if( ! empty( $this->possible ) ){
+		if ( ! empty( $this->possible ) ){
 			$this->choose();
-		}else{
+		} else {
 			Rating_Log::add_all();
 			$this->set_possible();
-			if( ! empty( $this->possible ) ){
-				$this->choose();
 
+			if ( ! empty( $this->possible ) ){
+				$this->choose();
 			}
 		}
-
 	}
 
 	/**
@@ -62,22 +61,18 @@ class Rating_Choice {
 	 */
 	protected function choose_plugin() {
 		$key = array_rand( $this->possible );
-		$_chosen = $this->possible[ $key ];
+		$_chosen = $this->possible[$key];
 		$active = is_plugin_active( $_chosen );
-		if( $active ){
-			$this->chosen_plugin = get_plugin_data( $_chosen[ 'path' ] );
-		}else{
+		if ( $active ) {
+			$this->chosen_plugin = get_plugin_data( $_chosen['path'] );
+		} else {
 			Rating_Log::remove( $_chosen );
 			$this->set_possible();
 			$this->choose();
 		}
-
 	}
 
 	protected function valid_choice( $chosen ) {
-
+		// TODO
 	}
-
-
-
 }

@@ -11,12 +11,12 @@ Domain Path: /languages
 */
 
 define( 'PLUGIN_LOVE_DIR', dirname( __FILE__ ) );
-if( is_admin() ) {
+
+if ( is_admin() ) {
 	add_action( 'admin_init', 'plugin_love_init' );
 }
 
 function plugin_love_init(){
 	include_once( dirname( __FILE__ ) . '/Rating_Log.php' );
 	include_once( dirname( __FILE__ ) . '/Rating_Choice.php' );
-
 }
